@@ -1,4 +1,4 @@
-from tokens import *
+from re_tokens import *
 
 
 def test_Asterisk():

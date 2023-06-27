@@ -1,5 +1,5 @@
 from typing import List
-from tokens import *
+from re_tokens import *
 
 class Lexer:
     """ Lexer class.
@@ -108,9 +108,3 @@ class Lexer:
             i += 1
 
         return tokens
-
-    
-
-lxr = Lexer()
-tokens = lxr.scan(r"ab\\tc")
-print(tokens)
