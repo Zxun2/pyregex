@@ -1,4 +1,4 @@
-from re_tokens import *
+from tokens import *
 
 
 def test_Asterisk():
@@ -21,9 +21,9 @@ def test_NotToken():
 def test_Bracket():
     br = Bracket()
     assert br is not None
-    br = LeftBracket()
+    br = LeftSquareBracket()
     assert br is not None
-    br = RightBracket()
+    br = RightSquareBracket()
     assert br is not None
 
 

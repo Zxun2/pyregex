@@ -1,7 +1,7 @@
 import pytest
 
-from re_tokens import *
-from re_lexer import Lexer 
+from tokens import *
+from lexer import Lexer 
 
 
 @pytest.fixture
