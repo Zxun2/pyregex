@@ -1,4 +1,4 @@
-from ..regex.tokens import *
+from regex.tokens import *
 
 
 def test_Asterisk():

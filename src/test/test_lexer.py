@@ -1,8 +1,10 @@
 import pytest
 
-from ..regex.tokens import *
-from ..regex.lexer import Lexer 
+from regex.tokens import *
+from regex.lexer import Lexer 
 
+def transform(token: Token) -> str:
+    return str(token).split(":")[1].lstrip()
 
 @pytest.fixture
 def lexer():
@@ -15,37 +17,37 @@ def test_simple_re_lexing(lexer: Lexer):
 
 def test_escaping_char(lexer: Lexer):
     tokens = lexer.scan(r'a\\a\\t\.')
-    assert str(tokens[1]).split(":")[1].lstrip() == ElementToken.__name__ and tokens[1].char == '\\'
+    assert transform(tokens[1]) == ElementToken.__name__ and tokens[1].char == '\\'
 
 
 def test_escaping_get_tab(lexer: Lexer):
     tokens = lexer.scan(r'a\h\t')
-    assert str(tokens[2]).split(":")[1].lstrip() == ElementToken.__name__ and tokens[2].char == '\t'
+    assert transform(tokens[2]) == ElementToken.__name__ and tokens[2].char == '\t'
 
 
 def test_escaping_wildcard(lexer: Lexer):
     tokens = lexer.scan(r'\.')
-    assert str(tokens[0]).split(":")[1].lstrip() == ElementToken.__name__ and tokens[0].char == '.'
+    assert transform(tokens[0]) == ElementToken.__name__ and tokens[0].char == '.'
 
 
 def test_get_comma(lexer: Lexer):
     tokens = lexer.scan('a{3,5}')
-    assert str(tokens[3]).split(":")[1].lstrip() == Comma.__name__
+    assert transform(tokens[3]) == Comma.__name__
 
 
 def test_comma_is_element(lexer: Lexer):
     tokens = lexer.scan('a,')
-    assert str(tokens[1]).split(":")[1].lstrip() == ElementToken.__name__
+    assert transform(tokens[1]) == ElementToken.__name__
 
 
 def test_match_start(lexer: Lexer):
     tokens = lexer.scan('^a')
-    assert str(tokens[0]).split(":")[1].lstrip() == Start.__name__
+    assert transform(tokens[0]) == Start.__name__
 
 
 def test_match_end(lexer: Lexer):
     tokens = lexer.scan(r'fdsad\$cs$')
-    assert str(tokens[len(tokens) - 1]).split(":")[1].lstrip() == End.__name__
+    assert transform(tokens[len(tokens) - 1]) == End.__name__
 
 
 def test_fail_curly(lexer: Lexer):
@@ -56,8 +58,8 @@ def test_fail_curly(lexer: Lexer):
 def test_lexer_1(lexer: Lexer):
     tokens = lexer.scan(r'-\\\/\s~')
     assert len(tokens) == 5
-    assert str(tokens[0]).split(":")[1].lstrip() == Dash.__name__
-    assert str(tokens[1]).split(":")[1].lstrip() == ElementToken.__name__
-    assert str(tokens[2]).split(":")[1].lstrip() == ElementToken.__name__
-    assert str(tokens[3]).split(":")[1].lstrip() == SpaceToken.__name__
-    assert str(tokens[4]).split(":")[1].lstrip() == ElementToken.__name__
+    assert transform(tokens[0]) == Dash.__name__
+    assert transform(tokens[1]) == ElementToken.__name__
+    assert transform(tokens[2]) == ElementToken.__name__
+    assert transform(tokens[3]) == SpaceToken.__name__
+    assert transform(tokens[4]) == ElementToken.__name__
